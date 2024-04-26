@@ -1,4 +1,5 @@
-import MemberForm from './components/MemberDataForm';
+// import MemberForm from './components/MemberDataForm';
+import MemberForm from './components/MemberForm';
 import './App.css';
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
         style={{ width: '25%', height: 'auto' }}
         src='../public/Logotest.png'
       />
-      <h2>Tualatin Veterans Group</h2>
+      <h1>Tualatin Veterans Group</h1>
       <MemberForm />
     </div>
   );
