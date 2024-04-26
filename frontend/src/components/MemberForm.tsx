@@ -6,7 +6,6 @@ import { Button } from './ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,19 +14,88 @@ import {
 import { Input } from './ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from './ui/separator';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 // interface FieldProps {
 //   firstName: string;
 //   middleName: string;
 // }
 
+const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d{2}$/;
+
+const stateAbbreviations = [
+  'AL',
+  'AK',
+  'AZ',
+  'AR',
+  'CA',
+  'CO',
+  'CT',
+  'DE',
+  'FL',
+  'GA',
+  'HI',
+  'ID',
+  'IL',
+  'IN',
+  'IA',
+  'KS',
+  'KY',
+  'LA',
+  'ME',
+  'MD',
+  'MA',
+  'MI',
+  'MN',
+  'MS',
+  'MO',
+  'MT',
+  'NE',
+  'NV',
+  'NH',
+  'NJ',
+  'NM',
+  'NY',
+  'NC',
+  'ND',
+  'OH',
+  'OK',
+  'OR',
+  'PA',
+  'RI',
+  'SC',
+  'SD',
+  'TN',
+  'TX',
+  'UT',
+  'VT',
+  'VA',
+  'WA',
+  'WV',
+  'WI',
+  'WY',
+];
+
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
   middleName: z.string().min(0).max(50),
   lastName: z.string().min(2).max(50),
-  dateOfBirth: z.string().min(8).max(10),
+  dateOfBirth: z
+    .string()
+    .regex(dateRegex, 'Please enter birth date in MM/DD/YYYY format.')
+    .refine((value) => {
+      const [month, day, year] = value.split('/');
+      const date = new Date(`${year}-${month}-${day}`);
+      return !isNaN(date.getTime()) && date < new Date();
+    }, 'Invalid or future date.'),
   streetAddress: z.string().min(2).max(100),
-  streetAddress2: z.string().min(2).max(100),
+  streetAddress2: z.string().min(0).max(100),
   city: z.string().min(2).max(50),
   state: z.string().min(2).max(2),
   zipCode: z.string().min(5).max(10),
@@ -35,81 +103,82 @@ const formSchema = z.object({
   emailAddress: z.string().email(),
 });
 
-type FormFieldName = keyof z.infer<typeof formSchema>;
+// type FormFieldName = keyof z.infer<typeof formSchema>;
 
-const formFields: {
-  name: FormFieldName;
-  label: string;
-  placeholder: string;
-  description: string;
-}[] = [
-  {
-    name: 'firstName',
-    label: 'First Name',
-    placeholder: 'First Name',
-    description: '',
-  },
-  {
-    name: 'middleName',
-    label: 'Middle Name',
-    placeholder: 'Middle Name',
-    description: '',
-  },
-  {
-    name: 'lastName',
-    label: 'Last Name',
-    placeholder: 'Last Name',
-    description: '',
-  },
-  {
-    name: 'dateOfBirth',
-    label: 'Date of Birth',
-    placeholder: 'Date of Birth',
-    description: '',
-  },
-  {
-    name: 'streetAddress',
-    label: 'Address',
-    placeholder: 'Address',
-    description: '',
-  },
-  {
-    name: 'streetAddress2',
-    label: 'Address 2',
-    placeholder: 'Address 2',
-    description: '',
-  },
-  {
-    name: 'city',
-    label: 'City',
-    placeholder: 'City',
-    description: '',
-  },
-  {
-    name: 'state',
-    label: 'State',
-    placeholder: 'State',
-    description: '',
-  },
-  {
-    name: 'zipCode',
-    label: 'Zip Code',
-    placeholder: 'Zip Code',
-    description: '',
-  },
-  {
-    name: 'phoneNumber',
-    label: 'Phone',
-    placeholder: 'Phone',
-    description: '',
-  },
-  {
-    name: 'emailAddress',
-    label: 'Email',
-    placeholder: 'Email',
-    description: '',
-  },
-];
+// * To add better layout, I got rid of using a `map` to iterate over this array to render components
+// const formFields: {
+//   name: FormFieldName;
+//   label: string;
+//   placeholder: string;
+//   description: string;
+// }[] = [
+//   {
+//     name: 'firstName',
+//     label: 'First Name',
+//     placeholder: 'First Name',
+//     description: '',
+//   },
+//   {
+//     name: 'middleName',
+//     label: 'Middle Name',
+//     placeholder: 'Middle Name',
+//     description: '',
+//   },
+//   {
+//     name: 'lastName',
+//     label: 'Last Name',
+//     placeholder: 'Last Name',
+//     description: '',
+//   },
+//   {
+//     name: 'dateOfBirth',
+//     label: 'Date of Birth',
+//     placeholder: 'Date of Birth',
+//     description: '',
+//   },
+//   {
+//     name: 'streetAddress',
+//     label: 'Address',
+//     placeholder: 'Address',
+//     description: '',
+//   },
+//   {
+//     name: 'streetAddress2',
+//     label: 'Address 2',
+//     placeholder: 'Address 2',
+//     description: '',
+//   },
+//   {
+//     name: 'city',
+//     label: 'City',
+//     placeholder: 'City',
+//     description: '',
+//   },
+//   {
+//     name: 'state',
+//     label: 'State',
+//     placeholder: 'State',
+//     description: '',
+//   },
+//   {
+//     name: 'zipCode',
+//     label: 'Zip Code',
+//     placeholder: 'Zip Code',
+//     description: '',
+//   },
+//   {
+//     name: 'phoneNumber',
+//     label: 'Phone',
+//     placeholder: 'Phone',
+//     description: '',
+//   },
+//   {
+//     name: 'emailAddress',
+//     label: 'Email',
+//     placeholder: 'Email',
+//     description: '',
+//   },
+// ];
 
 function MemberForm() {
   const { toast } = useToast();
@@ -287,7 +356,7 @@ function MemberForm() {
               />
             </div>
             <div className="shrink"></div>
-            <FormField
+            {/* <FormField
               name="state"
               control={form.control}
               render={({ field }) => (
@@ -302,7 +371,42 @@ function MemberForm() {
                   <FormMessage />
                 </FormItem>
               )}
+            /> */}
+
+            <FormField
+              name="state"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        {' '}
+                        {/* Trigger size can vary based on layout */}
+                        <SelectValue placeholder="Select State" />{' '}
+                        {/* Default placeholder text */}
+                      </SelectTrigger>
+                      <SelectContent>
+                        {stateAbbreviations.map((abbreviation) => (
+                          <SelectItem
+                            key={abbreviation}
+                            value={abbreviation}
+                          >
+                            {abbreviation}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
             <div className="flex-grow basis-5/12">
               <FormField
                 name="zipCode"

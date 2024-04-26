@@ -1,6 +1,5 @@
 import MemberForm from './components/MemberForm';
 import { Toaster } from './components/ui/toaster';
-import { Separator } from './components/ui/separator';
 import './App.css';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
           <div className="mb-6">
             <h1 className="text-2xl font-bold mb-4">Member Form</h1>
           </div>
-          <Separator />
           <MemberForm />
         </div>
       </div>
