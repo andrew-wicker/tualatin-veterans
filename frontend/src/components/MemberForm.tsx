@@ -14,6 +14,7 @@ import {
 } from './ui/form';
 import { Input } from './ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { Separator } from './ui/separator';
 
 // interface FieldProps {
 //   firstName: string;
@@ -147,29 +148,222 @@ function MemberForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
         >
-          {formFields.map((fieldItem) => (
+          {/* Grouping date of birth */}
+          <div className="flex gap-4">
             <FormField
-              key={fieldItem.name}
+              name="dateOfBirth"
               control={form.control}
-              name={fieldItem.name}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{fieldItem.label}</FormLabel>
+                  <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={fieldItem.placeholder}
+                      placeholder="MM/DD/YYYY"
                       {...field}
-                      className="border-gray-300 rounded"
                     />
                   </FormControl>
-                  <FormDescription className="text-gray-600">
-                    {fieldItem.description}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          ))}
+          </div>
+
+          {/* Grouping name fields */}
+          <div className="flex gap-4">
+            <div className="grow basis-5/12">
+              <FormField
+                name="firstName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="First Name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="shrink">
+              <FormField
+                name="middleName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Middle Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Middle Name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grow basis-5/12">
+              <FormField
+                name="lastName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Last Name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <Separator />
+          {/* Grouping address fields */}
+          <div className="flex gap-4">
+            <div className="flex-grow">
+              <FormField
+                name="streetAddress"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Street Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Street Address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex-grow">
+              <FormField
+                name="streetAddress2"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Street Address 2</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Street Address 2"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="flex-grow basis-5/12">
+              <FormField
+                name="city"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="City"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="shrink"></div>
+            <FormField
+              name="state"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="State"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex-grow basis-5/12">
+              <FormField
+                name="zipCode"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>ZIP Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="ZIP Code"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <Separator />
+          {/* Grouping phone and email fields */}
+          <div className="flex gap-4">
+            <div className="flex-grow">
+              <FormField
+                name="phoneNumber"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Phone Number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex-grow">
+              <FormField
+                name="emailAddress"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email Address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
           <Button
             type="submit"
             className="bg-gray-500 text-white px-4 py-2 rounded"
