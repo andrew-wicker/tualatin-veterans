@@ -47,7 +47,7 @@ mongoose
 const generateFakeMembers = async () => {
   try {
     const fakeMembers: Partial<IMemberDocument>[] = Array.from(
-      { length: 10 },
+      { length: 100 },
       () => ({
         firstName: faker.person.firstName(),
         middleName: faker.person.middleName(),
